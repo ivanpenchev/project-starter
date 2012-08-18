@@ -5,10 +5,18 @@
         <title>
             {% block title %} Home page {% endblock %}
         </title>
-        <link rel="stylesheet" type="text/css" src="{{ STATIC_URL }}stylesheets/foundation.min.css" />
-        <link type="text/css" rel="stylesheet" src="{{ STATIC_URL }}stylesheets/app.css" />
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheets/foundation.css" />
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheets/app.css" />
     </head>
     <body>
+        <header>
+            <div class="row">
+                <div class="twelve columns">
+                    <h2>Project Starter</h2>
+                    <h5 class="subheader">Start new project in seconds right now</h5>
+                </div>
+            </div>
+        </header>
         {% block content %}
         {% endblock %}
         <footer>
