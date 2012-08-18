@@ -4,12 +4,9 @@ from project import settings
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
-from project.views import LoginView, HomeView
+from project.views import LoginView, HomeView, LogoutView
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'mysite.views.home', name='home'),
-    # url(r'^mysite/', include('mysite.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -17,7 +14,8 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^$', HomeView.as_view(), name='home'),
-    url(r'^sign-in$', LoginView.as_view(), name='login'),
+    url(r'^sign-in$', LoginView.as_view(), name='sign-in'),
+    url(r'^logout$', LogoutView.as_view(), name='logout'),
 
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', dict(document_root=settings.STATIC_ROOT)),
 )

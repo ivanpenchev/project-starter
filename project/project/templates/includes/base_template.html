@@ -5,12 +5,62 @@
         <title>
             {% block title %} Home page {% endblock %}
         </title>
-        <link rel="stylesheet" type="text/css" src="{{ STATIC_URL }}stylesheets/foundation.min.css" />
-        <link type="text/css" rel="stylesheet" src="{{ STATIC_URL }}stylesheets/app.css" />
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheets/foundation.css" />
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheets/app.css" />
     </head>
     <body>
-        {% block content %}
-        {% endblock %}
+        <header>
+            <div class="row">
+                <div class="seven columns">
+                    <h2>Project Starter</h2>
+                    <h5 class="subheader">Start new project in seconds right now</h5>
+                </div>
+                <div class="five columns right login-form-small">
+                    {% if not user.is_authenticated %}
+                    <form action="{% url sign-in %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                           <div class="five columns">
+                                <input type="text" name="email" placeholder="Email" />
+                           </div>
+                            <div class="four columns">
+                                <input type="password" name="password" placeholder="Password">
+                            </div>
+                            <div class="three columns">
+                                <input type="submit" name="signin" value="Sign in" class="small round button" />
+                            </div>
+                        </div>
+                    </form>
+                    {% else %}
+                    <p>
+                        {% if user.get_full_name %}
+                            Welcome
+                            {{ user.get_full_name }}
+                        {% else %}
+                            {{ user.email }}
+                        {% endif %}
+                         | <a href="{% url logout %}" class="tiny secondary button">Logout</a>
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+        <div class="row">
+            <div class="twelve columns">
+                <ul class="breadcrumbs">
+                    <li> <a href="{% url home %}" class="current"> Home </a> </li>
+                    {% if not user.is_authenticated %}
+                    <li> <a href="{% url sign-in %}"> Sign in </a> </li>
+                    {% else %}
+                    <li> <a href="{% url logout %}" class="to-right"> Logout </a> </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
         <footer>
             {% block footer %} project starter | django dash 2012 {% endblock %}
         </footer>

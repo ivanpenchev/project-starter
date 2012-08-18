@@ -1,16 +1,22 @@
 {% extends "base_template.html" %}
 
+        {% block title %} Sign in template {% endblock %}
+
         {% block content %}
         <div class="row">
             <div class="five centered columns">
+                <h3>Sign in</h3>
+                <hr />
                 <form action="" method="POST">
+                    {% csrf_token %}
                     <label>Email:</label>
                     <input type="text" name="email" />
 
                     <label>Password:</label>
                     <input type="text" name="password" />
 
-                    <input type="submit" name="submit" class="medium primary button with radius" />
+                    <input type="submit" name="submit" value="Sign in" class="medium primary button with radius" />
+                    <a href="#">Lost password?</a>
                 </form>
             </div>
         </div>
