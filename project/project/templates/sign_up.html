@@ -1,0 +1,30 @@
+{% extends "base_template.html" %}
+
+        {% block title %} Sign up {% endblock %}
+
+        {% block content %}
+        <div class="row">
+            <div class="five centered columns">
+                <h3>Sign up</h3>
+                <hr />
+                <form action="" method="">
+                    <label for="user-fname">First name</label>
+                    <input type="text" name="fname" id="user-fname" />
+
+                    <label for="user-lname">Last name</label>
+                    <input type="text" name="lname" id="user-lname" />
+
+                    <label for="user-email">Email</label>
+                    <input type="text" name="email" id="user-email" />
+
+                    <label for="user-password">Password</label>
+                    <input type="password" name="password" id="user-password" />
+
+                    <label for="user-confirm">Confirm password</label>
+                    <input type="password" name="password_confirm" id="user-confirm" />
+
+                    <input type="submit" class="medium primary button with radius" value="Sign up" />
+                </form>
+            </div>
+        </div>
+        {% endblock %}

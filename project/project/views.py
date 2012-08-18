@@ -1,6 +1,7 @@
 # project/views.py
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse, Http404, HttpResponseBadRequest
 from django.utils import simplejson
 from django.core.serializers import json, serialize
@@ -71,7 +72,6 @@ class BaseView(View):
 
 class HomeView(BaseView):
 
-
     def get(self, request):
         """
             Render appropriate template when get request to HomeView is received
@@ -82,16 +82,37 @@ class HomeView(BaseView):
         """
             If the received request type is post redirect to the home page
         """
-        return HttpResponseRedirect('/');
+        return HttpResponseRedirect('/')
+
+class SignupView(BaseView):
+
+    def get(self, request):
+        """
+            Render sign up form
+        """
+        if not request.user.is_authenticated():
+            return self.template_response(request, template_name='sign_up.html')
+        else:
+            return HttpResponseRedirect('/')
+
+    def post(self, request):
+        """
+            Try to create new user in the database
+        """
+        if not request.user.is_authenticated():
+            post_data = request.POST
+
+            user = User.objects.create_user(post_data['username'], post_data['email'], post_data['password'])
+        else:
+            return HttpResponseRedirect('/')
 
 class LoginView(BaseView):
-
 
     def get(self, request):
         """
             Just render and return the login form template
         """
-        if not request.user.is_authenticated:
+        if not request.user.is_authenticated():
             return self.template_response(request, template_name="sign_in.html")
         else:
             return HttpResponseRedirect('/dashboard')
@@ -122,6 +143,7 @@ class LoginView(BaseView):
 
 
 class LogoutView(BaseView):
+
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(LogoutView, self).dispatch(*args, **kwargs)
