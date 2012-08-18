@@ -8,4 +8,4 @@ install:
 
 # run tests
 script:
-  - python project/manage.py test builder
+  - python project/manage.py test

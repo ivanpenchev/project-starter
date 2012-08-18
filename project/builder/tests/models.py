@@ -35,7 +35,7 @@ class ModelsTestCase(TestCase):
 		create_page.elements.add(page_element)
 
 		# Test it!
-		page = Page.objects.filter(id=1)[0];
+		page = PageModel.objects.filter(id=1)[0];
 		self.assertEqual(page.creator.username, 'unittest')
 		self.assertEqual(page.elements.all()[0].content, 'This is a test element.')
 		self.assertEqual(page.template.text_color, '#000')
