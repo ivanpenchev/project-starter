@@ -1,6 +1,6 @@
 from django.db import models
 
-class PageElementModel(models.Model):
+class PageElement(models.Model):
 	"""
 	Model for the coming-soon page elements
 	"""
@@ -20,7 +20,7 @@ class PageElementModel(models.Model):
 	position = models.CommaSeparatedIntegerField(max_length=100)
 	# Multilanguage support
 	language = models.CharField(max_length=100, default="en")
-	# Whether it is custom (user-created) or syste-created
+	# Whether it is custom (user-created) or system-created
 	custom = models.BooleanField(default=False)
 
 	def __unicode__(self):

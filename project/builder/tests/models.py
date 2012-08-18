@@ -22,20 +22,26 @@ class ModelsTestCase(TestCase):
 		creator = User.objects.filter(username='unittest')[0]
 
 		# Create a page element
-		page_element = PageElementModel(content='This is a test element.', position=1)
+		page_element = PageElement(content='This is a test element.', position=1)
 		page_element.save()
 
+		# Create a page element
+		page_setting = PageSetting(name='email', value='This is the email.')
+		page_setting.save()
+
 		# And a template
-		template = PageTemplateModel()
+		template = PageTemplate()
 		template.save()
 
 		# Create the page
-		create_page = PageModel(creator=creator, template=template)
+		create_page = Page(creator=creator, template=template)
 		create_page.save()
 		create_page.elements.add(page_element)
+		create_page.settings.add(page_setting)
 
 		# Test it!
-		page = PageModel.objects.filter(id=1)[0];
+		page = Page.objects.filter(id=1)[0];
 		self.assertEqual(page.creator.username, 'unittest')
 		self.assertEqual(page.elements.all()[0].content, 'This is a test element.')
+		self.assertEqual(page.settings.all()[0].name, 'email')
 		self.assertEqual(page.template.text_color, '#000')

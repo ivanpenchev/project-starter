@@ -1,11 +1,12 @@
 from django.contrib.auth.models import User
 
-from .page_template import PageTemplateModel
-from .page_element import PageElementModel
+from .page_template import PageTemplate
+from .page_element import PageElement
+from .page_setting import PageSetting
 
 from django.db import models
 
-class PageModel(models.Model):
+class Page(models.Model):
 	"""
 	Model for the coming-soon pages
 	"""
@@ -14,9 +15,11 @@ class PageModel(models.Model):
 	creator = models.ForeignKey(User)
 
 	# Many elements in the same page
-	elements = models.ManyToManyField(PageElementModel)
+	elements = models.ManyToManyField(PageElement)
+	# The page can have many settings
+	settings = models.ManyToManyField(PageSetting)
 	# It has a template
-	template = models.ForeignKey(PageTemplateModel)
+	template = models.ForeignKey(PageTemplate)
 
 	# Multilanguage support
 	languages = models.CharField(max_length=100, default="en")

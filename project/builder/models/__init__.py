@@ -1,3 +1,4 @@
-from .page_template import PageTemplateModel
-from .page_element import PageElementModel
-from .page import PageModel
+from .page_template import PageTemplate
+from .page_element import PageElement
+from .page_setting import PageSetting
+from .page import Page
