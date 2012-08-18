@@ -1,0 +1,17 @@
+{% extends "base_template.html" %}
+
+        {% block content %}
+        <div class="row">
+            <div class="five centered columns">
+                <form action="" method="POST">
+                    <label>Email:</label>
+                    <input type="text" name="email" />
+
+                    <label>Password:</label>
+                    <input type="text" name="password" />
+
+                    <input type="submit" name="submit" class="medium primary button with radius" />
+                </form>
+            </div>
+        </div>
+        {% endblock %}
