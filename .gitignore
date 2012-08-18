@@ -2,6 +2,7 @@
 *.pot
 *.pyc
 /*.pyc
-local_settings.py
 .idea/
 *.db
+/static/cache/
+/static/log/
