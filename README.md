@@ -1,6 +1,9 @@
 project-starter
 ===============
 
+[![Build Status](https://secure.travis-ci.org/ivanvpenchev/project-starter.png?branch=develop)](http://travis-ci.org/ivanvpenchev/project-starter)
+
+
 ### Installation
 1. Create a virtualenv and activate it
 2. Clone the repo
