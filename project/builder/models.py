@@ -2,27 +2,20 @@ from django.contrib.auth.models import User
 
 from django.db import models
 
-class Page(models.Model):
+class Template(models.Model):
 	"""
-	Model for the coming-soon pages
+	Model for page's templates
 	"""
 
-	# One creator
-	creator = models.ForeignKey(User)
+	# Page's background
+	background = models.CharField(max_length=200, default="#fff")
+	# Central box background
+	box_background = models.CharField(max_length=200, default="#fff")
+	# Page's text color
+	text_color = models.CharField(max_length=20, default="#000")
 
-	# Many elements in the same page
-	elements = models.ManyToManyField(PageElement)
-	# It has a template
-	template = models.ForeignKey(Template)
-
-	# Multilanguage support
-	languages = models.CharField(max_length=100, default="en")
-	# Is the page published?
-	published = models.BooleanField(default=False)
-
-	# Automatic timestamp fields
-	created_at = models.DateTimeField(auto_now_add=True)
-	updated_at = models.DateTimeField(auto_now=True)
+	# Whether it is custom (user-created) or syste-created
+	custom = models.BooleanField(default=False)
 
 class PageElement(models.Model):
 	"""
@@ -47,17 +40,24 @@ class PageElement(models.Model):
 	# Whether it is custom (user-created) or syste-created
 	custom = models.BooleanField(default=False)
 
-class Template(models.Model):
+class Page(models.Model):
 	"""
-	Model for page's templates
+	Model for the coming-soon pages
 	"""
 
-	# Page's background
-	background = models.CharField(max_length=200)
-	# Central box background
-	box_background = models.CharField(max_length=200)
-	# Page's text color
-	text_color = models.CharField(max_length=20)
+	# One creator
+	creator = models.ForeignKey(User)
 
-	# Whether it is custom (user-created) or syste-created
-	custom = models.BooleanField(default=False)
+	# Many elements in the same page
+	elements = models.ManyToManyField(PageElement)
+	# It has a template
+	template = models.ForeignKey(Template)
+
+	# Multilanguage support
+	languages = models.CharField(max_length=100, default="en")
+	# Is the page published?
+	published = models.BooleanField(default=False)
+
+	# Automatic timestamp fields
+	created_at = models.DateTimeField(auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True)
