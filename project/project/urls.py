@@ -18,7 +18,7 @@ urlpatterns = patterns('',
 	url(r'^logout$', LogoutView.as_view(), name='logout'),
 )
 
-if not settings.DEBUG:
+if settings.DEBUG:
 	urlpatterns += patterns('',
 		url(r'^static/(?P<path>.*)$', 'django.views.static.serve', dict(document_root=settings.STATIC_ROOT)),
 	)
