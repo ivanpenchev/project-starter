@@ -15,7 +15,7 @@ def deep_update(from_dict, to_dict):
             to_dict[key] = value
 
 # this should be one of production, development. Default to dev for safety.
-env = os.environ.get('APP_ENV', 'development')
+env = os.environ.get('APP_ENV', 'production')
 
 modules = ('defaults', env)
 current = __name__
