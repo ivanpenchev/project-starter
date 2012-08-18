@@ -16,6 +16,9 @@ class Template(models.Model):
 
 	# Whether it is custom (user-created) or syste-created
 	custom = models.BooleanField(default=False)
+	
+	def __unicode__(self):
+		return str(self.background)
 
 class PageElement(models.Model):
 	"""
@@ -40,6 +43,9 @@ class PageElement(models.Model):
 	# Whether it is custom (user-created) or syste-created
 	custom = models.BooleanField(default=False)
 
+	def __unicode__(self):
+		return str(self.content)
+
 class Page(models.Model):
 	"""
 	Model for the coming-soon pages
@@ -61,3 +67,6 @@ class Page(models.Model):
 	# Automatic timestamp fields
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
+
+	def __unicode__(self):
+		return str(self.creator)
