@@ -1,11 +1,8 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 # project/views.py
 from django import http
 from django.template import RequestContext, loader
 from django.utils import simplejson
-from django.views.generic import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 
 class BaseView(View):
     """
