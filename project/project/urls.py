@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^sign-in$', LoginView.as_view(), name='sign-in'),
     url(r'^logout$', LogoutView.as_view(), name='logout'),
-
-    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', dict(document_root=settings.STATIC_ROOT)),
+    
+	if not settings.DEBUG:
+		url(r'^static/(?P<path>.*)$', 'django.views.static.serve', dict(document_root=settings.STATIC_ROOT)),
 )
