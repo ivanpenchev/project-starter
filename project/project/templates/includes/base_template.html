@@ -16,7 +16,9 @@
                     <h5 class="subheader">Start new project in seconds right now</h5>
                 </div>
                 <div class="five columns right login-form-small">
-                    <form action="#" method="POST">
+                    {% if not user.is_authenticated %}
+                    <form action="{% url sign-in %}" method="POST">
+                        {% csrf_token %}
                         <div class="row">
                            <div class="five columns">
                                 <input type="text" name="email" placeholder="Email" />
@@ -29,6 +31,17 @@
                             </div>
                         </div>
                     </form>
+                    {% else %}
+                    <p>
+                        {% if user.get_full_name %}
+                            Welcome
+                            {{ user.get_full_name }}
+                        {% else %}
+                            {{ user.email }}
+                        {% endif %}
+                         | <a href="{% url logout %}" class="tiny secondary button">Logout</a>
+                    </p>
+                    {% endif %}
                 </div>
             </div>
         </header>
@@ -36,7 +49,11 @@
             <div class="twelve columns">
                 <ul class="breadcrumbs">
                     <li> <a href="{% url home %}" class="current"> Home </a> </li>
+                    {% if not user.is_authenticated %}
                     <li> <a href="{% url sign-in %}"> Sign in </a> </li>
+                    {% else %}
+                    <li> <a href="{% url logout %}" class="to-right"> Logout </a> </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

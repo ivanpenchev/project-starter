@@ -1,9 +1,11 @@
 # project/views.py
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, Http404, HttpResponseBadRequest
 from django.utils import simplejson
 from django.core.serializers import json, serialize
 from django.template import RequestContext, loader
+from django.utils.decorators import method_decorator
 from django.views.generic import View
 from django.views.generic import TemplateView
 
@@ -69,6 +71,7 @@ class BaseView(View):
 
 class HomeView(BaseView):
 
+
     def get(self, request):
         """
             Render appropriate template when get request to HomeView is received
@@ -82,6 +85,7 @@ class HomeView(BaseView):
         return HttpResponseRedirect('/');
 
 class LoginView(BaseView):
+
 
     def get(self, request):
         """
@@ -114,4 +118,18 @@ class LoginView(BaseView):
         else:
             return HttpResponseRedirect('dashboard')
 
+        return HttpResponseRedirect('/sign-in')
+
+
+class LogoutView(BaseView):
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(LogoutView, self).dispatch(*args, **kwargs)
+
+    def get(self, request):
+        """
+            Simple method to logout the current user when the appropriate
+            request is being received.
+        """
+        logout(request)
         return HttpResponseRedirect('/sign-in')
