@@ -1,13 +1,8 @@
-<<<<<<< HEAD
 *.log
 *.pot
 *.pyc
 /*.pyc
-.idea/
-=======
-*.log
-*.pot
-*.pyc
 local_settings.py
 .idea/
->>>>>>> f6c3ac32470f2453aeba041abfd7b18b9ff029b1
+*.db
+
