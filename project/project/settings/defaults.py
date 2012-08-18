@@ -120,6 +120,7 @@ INSTALLED_APPS = (
     'compressor',
 
     # Site specific apps
+    'project',
     'builder'
     
     # Uncomment the next line to enable the admin:
