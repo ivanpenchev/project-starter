@@ -1,1 +1,1 @@
-web: python project/manage.py run_gunicorn 0.0.0.0:$PORT
+web: gunicorn project/project/wsgi.py -b 0.0.0.0:$PORT
