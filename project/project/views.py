@@ -160,6 +160,7 @@ class ChangePasswordView(BaseView):
     def post(self, request):
         pass
 
+
 class DashboardView(BaseView):
 
     def get(self, request):
