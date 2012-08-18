@@ -1,6 +1,6 @@
 from django.db import models
 
-class PageTemplate(models.Model):
+class PageTemplateModel(models.Model):
 	"""
 	Model for page's templates
 	"""

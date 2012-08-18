@@ -1,6 +1,6 @@
 from django.db import models
 
-class PageElement(models.Model):
+class PageElementModel(models.Model):
 	"""
 	Model for the coming-soon page elements
 	"""

@@ -1,0 +1,27 @@
+{% csrf_token %}
+
+<div class="alert-box alert {% if not form.non_field_errors and not custom_errors %}hidden{% endif %}">
+	{% if form.non_field_errors or custom_errors %}
+		{% for error in form.non_field_errors %}
+			{{ error|escape }}<br/>
+		{% endfor %}
+		{% for error in custom_errors %}
+			{{ error|escape }}<br/>
+		{% endfor %}
+	{% endif %}
+</div>
+
+{% for field in form %}
+	<div class="field {% if field.errors %}error{% endif %}">
+		{{ field.label_tag }}
+		{{ field }}
+
+		<small>
+			{% if field.errors %}
+				{% for error in field.errors %}
+					{{ error|escape }}<br/>
+				{% endfor %}
+			{% endif %}
+		</small>
+	</div>
+{% endfor %}

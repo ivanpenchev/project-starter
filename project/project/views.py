@@ -1,6 +1,7 @@
 # project/views.py
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse, Http404, HttpResponseBadRequest
 from django.utils import simplejson
@@ -27,7 +28,11 @@ class BaseView(View):
         template = loader.get_template(template_name)
         context = RequestContext(request, context_data)
 
-        return HttpResponse(template.render(context))
+        if not request.is_ajax():
+            return HttpResponse(template.render(context))
+        else:
+            json_params = {'template': self.template_to_string(request, template_name=template_name, context_data=context_data)}
+            return self.json(json_params)
 
     def template_to_string(self, request, template_name="index.html", context_data={}):
         """Return a template response, rendered to string"""
@@ -53,22 +58,39 @@ class BaseView(View):
 
         return HttpResponse(content, mimetype='application/json')
 
-    def form_errors(self, form):
-        """Get form errors and return them in a json response"""
+    def form_response(self, request, template_name, form, data={}):
+        """Handle form responses"""
 
-        output_dict = {'success' : 'false'}
-
-        dictionary = {}
-        for element in form.errors.iteritems():
-            dictionary.update(
-                {
-                    element[0] : unicode(element[1])
+        output = {}
+        if form.is_valid():
+            try:
+                output = {
+                    'success' : data['messages']['success'] if 'success' in data['messages'] else True,
+                    'db_object' : form.save(request, data['db_object'] if 'db_object' in data else None)
                 }
-            )
+            except Exception:
+                output = {
+                    'success' : False,
+                    'form' : form,
+                    'custom_errors' : { data['messages']['error'] } if 'error' in data['messages'] else False
+                }
+        else:
+            output = {
+                'success' : False,
+                'form' : form,
+                'errors' : form.errors
+            }
 
-        output_dict.update({'errors': dictionary})
+        if request.is_ajax():
+            return self.json(output)
+        else:
+            if output['success']:
+                db_object = output['db_object']
 
-        return self.json(output_dict)
+                if 'on_success_redirect' in data:
+                    return HttpResponseRedirect(reverse(data['on_success_redirect'], kwargs={'id' : db_object.id}))
+            else:
+                return self.template_response(request, template_name=template_name, context_data=output)
 
 
 class HomeView(BaseView):

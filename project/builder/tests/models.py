@@ -22,15 +22,15 @@ class ModelsTestCase(TestCase):
 		creator = User.objects.filter(username='unittest')[0]
 
 		# Create a page element
-		page_element = PageElement(content='This is a test element.', position=1)
+		page_element = PageElementModel(content='This is a test element.', position=1)
 		page_element.save()
 
 		# And a template
-		template = PageTemplate()
+		template = PageTemplateModel()
 		template.save()
 
 		# Create the page
-		create_page = Page(creator=creator, template=template)
+		create_page = PageModel(creator=creator, template=template)
 		create_page.save()
 		create_page.elements.add(page_element)
 
