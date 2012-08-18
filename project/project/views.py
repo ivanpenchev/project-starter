@@ -1,1 +1,5 @@
-from django.http import HttpResponse
+# project/views.py
+from django.views.generic import TemplateView
+
+class LoginView(TemplateView):
+    template_name = "login.html"
