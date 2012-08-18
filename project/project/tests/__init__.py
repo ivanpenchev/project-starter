@@ -1,0 +1,1 @@
+from .auth_pages import AuthPagesTestCase

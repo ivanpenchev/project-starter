@@ -3,13 +3,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, HttpResponse, Http404, HttpResponseBadRequest
+from django.http import HttpResponseRedirect, HttpResponse
 from django.utils import simplejson
 from django.core.serializers import json, serialize
 from django.template import RequestContext, loader
 from django.utils.decorators import method_decorator
 from django.views.generic import View
-from django.views.generic import TemplateView
 
 class BaseView(View):
     """
