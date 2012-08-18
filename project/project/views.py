@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.utils import simplejson
 from django.core.serializers import json, serialize
+from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 from django.utils.decorators import method_decorator
 from django.views.generic import View
@@ -104,7 +105,7 @@ class HomeView(BaseView):
         """
             If the received request type is post redirect to the home page
         """
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect(reverse('home'))
 
 
 class SignupView(BaseView):
@@ -116,7 +117,7 @@ class SignupView(BaseView):
         if not request.user.is_authenticated():
             return self.template_response(request, template_name='sign_up.html')
         else:
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect(reverse('home'))
 
     def post(self, request):
         """
@@ -132,9 +133,9 @@ class SignupView(BaseView):
             user.last_name = post_data['lname']
             user.save()
 
-            return HttpResponseRedirect('/sign-in')
+            return HttpResponseRedirect(reverse('sign-in'))
         else:
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect(reverse('home'))
 
 
 class LoginView(BaseView):
@@ -146,7 +147,7 @@ class LoginView(BaseView):
         if not request.user.is_authenticated():
             return self.template_response(request, template_name="sign_in.html")
         else:
-            return HttpResponseRedirect('/dashboard')
+            return HttpResponseRedirect(reverse('dashboard'))
 
     def post(self, request):
         """
@@ -166,11 +167,11 @@ class LoginView(BaseView):
                     if user.is_authenticated():
                         login(request, user)
 
-                        return HttpResponseRedirect('/dashboard')
+                        return HttpResponseRedirect(reverse('dashboard'))
         else:
-            return HttpResponseRedirect('dashboard')
+            return HttpResponseRedirect(reverse('dashboard'))
 
-        return HttpResponseRedirect('/sign-in')
+        return HttpResponseRedirect(reverse('sign-in'))
 
 
 class ChangePasswordView(BaseView):
@@ -200,4 +201,4 @@ class LogoutView(BaseView):
             request is being received.
         """
         logout(request)
-        return HttpResponseRedirect('/sign-in')
+        return HttpResponseRedirect(reverse('sign-in'))
