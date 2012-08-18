@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^sign-in$', LoginView.as_view(), name='sign-in'),
     url(r'^sign-up$', SignupView.as_view(), name='sign-up'),
+    url(r'^dashboard', DashbaordView.as_view(), name='dashboard'),
     url(r'^logout$', LogoutView.as_view(), name='logout'),
 	
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', dict(document_root=settings.STATIC_ROOT)),

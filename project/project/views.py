@@ -160,6 +160,11 @@ class ChangePasswordView(BaseView):
     def post(self, request):
         pass
 
+class DashboardView(BaseView):
+
+    def get(self, request):
+        return self.template_response(request, 'dashboard.html')
+
 
 class LogoutView(BaseView):
 
