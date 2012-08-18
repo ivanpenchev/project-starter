@@ -1,9 +1,9 @@
 from django.test import TestCase
 
 from django.contrib.auth.models import User
-from builder.models import Page, PageElement, Template
+from builder.models import *
 
-class PagesTest(TestCase):
+class ModelsTestCase(TestCase):
 	def setUp(self):
 		"""
 		Firstly, setup a user which will be used for testing
