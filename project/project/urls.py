@@ -8,15 +8,17 @@ from project.views import LoginView, HomeView, LogoutView
 
 urlpatterns = patterns('',
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+	# Uncomment the admin/doc line below to enable admin documentation:
+	# url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', HomeView.as_view(), name='home'),
-    url(r'^sign-in$', LoginView.as_view(), name='sign-in'),
-    url(r'^logout$', LogoutView.as_view(), name='logout'),
-    
-	if not settings.DEBUG:
-		url(r'^static/(?P<path>.*)$', 'django.views.static.serve', dict(document_root=settings.STATIC_ROOT)),
+	# Uncomment the next line to enable the admin:
+	# url(r'^admin/', include(admin.site.urls)),
+	url(r'^$', HomeView.as_view(), name='home'),
+	url(r'^sign-in$', LoginView.as_view(), name='sign-in'),
+	url(r'^logout$', LogoutView.as_view(), name='logout'),
 )
+
+if not settings.DEBUG:
+	urlpatterns += patterns('',
+		url(r'^static/(?P<path>.*)$', 'django.views.static.serve', dict(document_root=settings.STATIC_ROOT)),
+	)
