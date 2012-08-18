@@ -1,0 +1,11 @@
+language: python
+python:
+  - "2.7"
+
+# install everything
+install:
+  - pip install -r requirements/development.txt
+
+# run tests
+script:
+  - python project/manage.py test builder
