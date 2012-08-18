@@ -21,3 +21,8 @@ urlpatterns = patterns('',
 
     url(r'^builder/', include('builder.urls')),
 )
+
+if not settings.DEBUG:
+    urlpatterns += patterns('',
+        url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+    )
