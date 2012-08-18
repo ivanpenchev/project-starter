@@ -70,6 +70,7 @@ class BaseView(View):
 
         return self.json(output_dict)
 
+
 class HomeView(BaseView):
 
     def get(self, request):
@@ -83,6 +84,7 @@ class HomeView(BaseView):
             If the received request type is post redirect to the home page
         """
         return HttpResponseRedirect('/')
+
 
 class SignupView(BaseView):
 
@@ -102,9 +104,17 @@ class SignupView(BaseView):
         if not request.user.is_authenticated():
             post_data = request.POST
 
-            user = User.objects.create_user(post_data['username'], post_data['email'], post_data['password'])
+            username = post_data['fname']+post_data['lname']
+            user = User.objects.create_user(username.lower(), post_data['email'], post_data['password'])
+
+            user.first_name = post_data['fname']
+            user.last_name = post_data['lname']
+            user.save()
+
+            return HttpResponseRedirect('/sign-in')
         else:
             return HttpResponseRedirect('/')
+
 
 class LoginView(BaseView):
 
@@ -140,6 +150,15 @@ class LoginView(BaseView):
             return HttpResponseRedirect('dashboard')
 
         return HttpResponseRedirect('/sign-in')
+
+
+class ChangePasswordView(BaseView):
+
+    def get(self, request):
+        return self.template_response(request, 'password_change.html')
+
+    def post(self, request):
+        pass
 
 
 class LogoutView(BaseView):
