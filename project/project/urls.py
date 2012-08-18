@@ -4,7 +4,7 @@ from project import settings
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
-from project.views import LoginView, HomeView, TestView
+from project.views import LoginView, HomeView
 
 urlpatterns = patterns('',
     # Examples:
@@ -18,7 +18,6 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^sign-in$', LoginView.as_view(), name='login'),
-	url(r"^test/$", TestView.as_view(), name='test'),
 
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', dict(document_root=settings.STATIC_ROOT)),
 )

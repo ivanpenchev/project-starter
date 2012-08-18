@@ -1,52 +1,77 @@
 # project/views.py
-from django import http
-from django.template import RequestContext, loader
+from django.http import HttpResponseRedirect, HttpResponse, Http404, HttpResponseBadRequest
 from django.utils import simplejson
-from django.views.generic import TemplateView, View
+from django.core.serializers import json, serialize
+from django.template import RequestContext, loader
+from django.views.generic import View
+from django.views.generic import TemplateView
 
 class BaseView(View):
-    """
-    Base django class based view
-    """
+	"""
+	Base django class based view
+	"""
 
-    def template_response(self, request, template_name, context_data={}):
-    	"""Return a HttpResponse by given template name and context data"""
+	def dispatch(self, *args, **kwargs):
+		"""
+		Dispatch to corresponding method, e.g. GET to get()
+		"""
+		return super(BaseView, self).dispatch(*args, **kwargs)
 
-        template = loader.get_template(template_name)
-        context = RequestContext(request, context)
+	def template_response(self, request, template_name="index.html", context_data={}):
+		"""Return a HttpResponse by given template name and context data"""
 
-        return http.HttpResponse(template.render(context))
+		template = loader.get_template(template_name)
+		context = RequestContext(request, context_data)
 
-    def template_to_string(self, request, template_name, context_data={}):
-    	"""Return a template response, rendered to string"""
+		return HttpResponse(template.render(context))
 
-        template_string = ''
-        try:
-            template_string = loader.render_to_string(template_name, RequestContext(request, context_data))
-        except:
-            pass
+	def template_to_string(self, request, template_name="index.html", context_data={}):
+		"""Return a template response, rendered to string"""
 
-        return template_string
+		template_string = ''
+		try:
+			template_string = loader.render_to_string(template_name, RequestContext(request, context_data))
+		except:
+			pass
 
-    def json(self, response_object={}):
-    	"""Return a json response"""
+		return template_string
 
-        content = json_serialize(response_object)
+	def json(self, render_object={}):
+		"""Return a json response"""
 
-        return http.HttpResponse(content, mimetype='application/json')
+		if isinstance(render_object, HttpResponse):
+			content = serialize('json', render_object)
+		else:
+			content = simplejson.dumps(
+				render_object, indent=2, cls=json.DjangoJSONEncoder,
+				ensure_ascii=False
+			)
 
-    def invalid_request(self, request):
-    	"""Return a bad request"""
+		return HttpResponse(content, mimetype='application/json')
 
-        return http.HttpResponseBadRequest()
+	def form_errors(self, form):
+		"""Get form errors and return them in a json response"""
 
-class HomeView(TemplateView):
-    template_name = "index.html"
+		output_dict = {'success' : 'false'}
+		
+		dictionary = {}
+		for element in form.errors.iteritems():
+			dictionary.update(
+				{
+					element[0] : unicode(element[1])
+				}
+			)
+			
+		output_dict.update({'errors': dictionary})
+		
+		return self.json(output_dict)
 
-class LoginView(TemplateView):
-    template_name = "sign_in.html"
+class HomeView(BaseView):
 
-class TestView(BaseView):
+    def get(self, request):
+		return self.template_response(request)
 
-	def get(self, request):
-		return self.template_response(request, template_name='test.html')
+class LoginView(BaseView):
+
+    def get(self, request):
+		return self.template_response(request, template_name="sign_in.html")
