@@ -1,15 +1,12 @@
 from django.conf.urls import patterns, include, url
 from project import settings
 
-from views import TestView
-
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
+from project.views import LoginView, HomeView, TestView
 
 urlpatterns = patterns('',
-	url(r"^test/$", TestView.as_view(), name='test'),
-
     # Examples:
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^mysite/', include('mysite.foo.urls')),
@@ -19,6 +16,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', HomeView.as_view(), name='home'),
+    url(r'^sign-in$', LoginView.as_view(), name='login'),
+	url(r"^test/$", TestView.as_view(), name='test'),
 
-    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', dict(document_root=settings.STATIC_ROOT)),
 )

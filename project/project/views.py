@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # project/views.py
 from django import http
 from django.template import RequestContext, loader
@@ -41,10 +42,14 @@ class BaseView(View):
 
         return http.HttpResponseBadRequest()
 
+class HomeView(TemplateView):
+    template_name = "index.html"
+
 class LoginView(TemplateView):
-    template_name = "login.html"
+    template_name = "sign_in.html"
 
 class TestView(BaseView):
 
 	def get(self, request):
 		return self.template_response(request, template_name='test.html')
+
