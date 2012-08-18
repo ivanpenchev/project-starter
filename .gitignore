@@ -4,5 +4,5 @@
 /*.pyc
 .idea/
 *.db
-/static/cache/
-/static/log/
+project/static/cache/
+project/static/log/
