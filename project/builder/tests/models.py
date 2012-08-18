@@ -26,7 +26,7 @@ class ModelsTestCase(TestCase):
 		page_element.save()
 
 		# And a template
-		template = Template()
+		template = PageTemplate()
 		template.save()
 
 		# Create the page
