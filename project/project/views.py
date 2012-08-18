@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # project/views.py
 from django import http
 from django.template import RequestContext, loader
@@ -52,4 +53,3 @@ class TestView(BaseView):
 
 	def get(self, request):
 		return self.template_response(request, template_name='test.html')
-
