@@ -31,7 +31,7 @@ class BaseView(View):
 		template_string = ''
 		try:
 			template_string = loader.render_to_string(template_name, RequestContext(request, context_data))
-		except:
+		except Exception as error:
 			pass
 
 		return template_string
