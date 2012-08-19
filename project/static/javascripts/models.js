@@ -19,6 +19,6 @@ var BuilderPage = Backbone.Model.extend({
         var base = this.urlRoot || (this.collection && this.collection.url) || "/";
         if (this.isNew()) return base;
  
-        return base + this.id;
+        return base + this.id + '/json';
     }
 });

@@ -17,7 +17,6 @@ class BuilderView(BaseView):
 
 	def get(self, *args, **kwargs):
 		request = args[0]
-		print kwargs
 
 		if 'id' in kwargs:
 			page_id = kwargs.get('id')
@@ -30,7 +29,7 @@ class BuilderView(BaseView):
 										context_data={'page' : page})
 					output = { 'builder_content' : builder_content, 'page_id' : page_id }
 
-					if request.is_ajax():
+					if request.is_ajax() and 'json' in kwargs:
 						return self.json(output)
 					else:
 						return self.template_response(request, template_name='builder/main.html', context_data=output)
