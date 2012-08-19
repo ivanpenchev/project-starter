@@ -13,7 +13,10 @@
 7. N-joy it :)
 
 ### Online version
-_URL:_ [http://projectstarter.herokuapp.com/](http://projectstarter.herokuapp.com/)
-_Demo account:_
-	__username:__ `admin@example.com`
-	__password:__ `admin`
+__URL:__ [http://projectstarter.herokuapp.com/](http://projectstarter.herokuapp.com/)
+
+__Demo account:__
+
+    _username:_ `admin@example.com`
+
+    _password:_ `admin`
