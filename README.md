@@ -6,7 +6,7 @@
 ### Installation
 1. Create a virtualenv and activate it
 2. Clone the repo
-3. Run `cd project & pip install -r requirements/development.txt`
+3. Run `cd project-starter & pip install -r requirements/development.txt`
 4. Run `python project/manage.py syncdb`
 5. Run `python project/manage.py runserver`
 6. Open [http://127.0.0.1:8000/](http://127.0.0.1:8000/)

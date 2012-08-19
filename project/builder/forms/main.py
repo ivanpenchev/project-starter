@@ -38,6 +38,8 @@ class PageCreateForm(forms.Form):
 		confirmation_email = BaseView().template_to_string(request, template_name='confirmation_email.html')
 		page_setting = PageSetting(name='email', value=confirmation_email)
 		page_setting.save()
+		page_setting = PageSetting(name='site_url', value=self.cleaned_data.get('site_url'))
+		page_setting.save()
 		obj_page.settings.add(page_setting)
 
 		return obj_page

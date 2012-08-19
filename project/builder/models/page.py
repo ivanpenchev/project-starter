@@ -33,5 +33,24 @@ class Page(models.Model):
 	def __unicode__(self):
 		return str(self.creator)
 
+	@classmethod
+	def fetch(cls, **kwargs):
+		return Page.objects.filter(**kwargs).order_by('-id')
+
+	def get_element(self, identifier):
+		if identifier == 'site_name':
+			identifier = 1
+		if identifier == 'site_slogan':
+			identifier = 2
+
+		page_element = self.elements.filter(position=identifier)
+
+		return page_element[0].content if page_element else None
+
+	def get_setting(self, identifier):
+		page_setting = self.settings.filter(name=identifier)
+
+		return page_setting[0].value if page_setting else None
+
 	class Meta:
 		app_label = 'builder'
