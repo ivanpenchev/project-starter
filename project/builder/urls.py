@@ -10,5 +10,7 @@ urlpatterns = patterns('builder.views.builder',
 )
 
 urlpatterns += patterns('builder.views.pages',
-	url(r'^page/create/$', PageCreateView.as_view(), name='page_create'),
+	url(r'^page/all/$', PageView.as_view(), name='page_all'),
+	url(r'^page/create/$', PageView.as_view(), name='page_create', kwargs={'action' : 'create'}),
+	url(r'^page/delete/(?P<id>\d+)/$', PageView.as_view(), name='page_delete', kwargs={'action' : 'delete'}),
 )
