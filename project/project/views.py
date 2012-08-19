@@ -201,6 +201,10 @@ class LostPasswordView(BaseView):
 
 class DashboardView(BaseView):
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(DashboardView, self).dispatch(*args, **kwargs)
+
     def get(self, request):
         return self.template_response(request, 'dashboard.html')
 
