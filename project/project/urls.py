@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, include, url
-from project import settings
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -17,7 +16,7 @@ urlpatterns = patterns('',
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^sign-in$', LoginView.as_view(), name='sign-in'),
     url(r'^sign-up$', SignupView.as_view(), name='sign-up'),
-    url(r'^password/lost$', LostPasswordView.as_view(), name='change-password'),
+    url(r'^password/lost$', LostPasswordView.as_view(), name='lost-password'),
     url(r'^dashboard', DashboardView.as_view(), name='dashboard'),
     url(r'^logout$', LogoutView.as_view(), name='logout'),
 
