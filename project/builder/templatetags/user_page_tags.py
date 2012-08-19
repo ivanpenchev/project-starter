@@ -10,6 +10,10 @@ register = template.Library()
 def get_element(user_page, identifier):
 	element = user_page.get_element(identifier)
 	return element if element else ''
+
+@register.assignment_tag
+def get_elements(user_page):
+	return user_page.elements.filter(custom=True)
 	
 @register.simple_tag
 def get_setting(user_page, identifier):

@@ -54,6 +54,7 @@ footer { border-top: 1px dashed #ccc; text-align: center; padding: 35px 0; }
 
 .coming-soon {
 	padding-top: 100px;
+	padding-bottom: 100px;
 }
 
 .coming-soon .box-element {

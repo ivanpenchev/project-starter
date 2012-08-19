@@ -5,6 +5,15 @@
 		<h2 id="comingsoontitle_1_{{ page.id }}" class="title editable">{% get_element page 'site_name' %}</h2>
 		<h5 id="comingsoonsubtitle_2_{{ page.id }}" class="sub editable">{% get_element page 'site_slogan' %}</h5>
 		<hr>
+		<div class="elements">
+			{% get_elements page as elements %}
+			{% for element in elements %}
+				<div id="comingsoonelement_{{ element.position }}_{{ page.id }}" class="custom editable" style="margin-bottom: 5px;">
+					{{ element.content|safe }}
+				</div>
+			{% endfor %}
+		</div>
+		<div id="comingsoonelement_0_{{ page.id }}" class="editable" style="color: #ccc;">Click here to add an element</div>
 	</div>
 </div>
 
