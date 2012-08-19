@@ -220,6 +220,8 @@ class LoginView(BaseView):
                         login(request, user)
 
                         return HttpResponseRedirect(reverse('dashboard'))
+
+                return HttpResponseRedirect(reverse('sign-in'))
             else:
                 context = {
                     'form' : signin_form,
