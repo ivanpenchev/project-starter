@@ -1,12 +1,13 @@
 # project/views.py
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import redirect
 from django.utils import simplejson
 from django.core.serializers import json, serialize
-from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 from django.utils.decorators import method_decorator
 from django.views.generic import View
@@ -15,6 +16,7 @@ from project.forms.sign_up import SignUpForm
 
 import string
 import random
+from project.libs.github import GitHub
 
 class BaseView(View):
     """
@@ -157,16 +159,43 @@ class SignupView(BaseView):
             return HttpResponseRedirect(reverse('home'))
 
 class LoginView(BaseView):
+    authenticate_method = 'django'
+    third_party_confirm = False
+
+    def dispatch(self, *args, **kwargs):
+        """
+            Process kwargs data in order to retrieve the requested
+            authentication method and heck whether the request for
+            third-party authorization has been confirmed or not.
+        """
+        if 'type' in kwargs and kwargs.get('type', '') == 'github':
+            self.authenticate_method = kwargs.get('type', '')
+        self.third_party_confirm = kwargs.get('confirm', False) if 'confirm' in kwargs else False
+
+        kwargs.clear()
+        return super(LoginView, self).dispatch(*args, **kwargs)
 
     def get(self, request):
         """
-            Just render and return the login form template
+            If the requested authenticate_method is 'django' simply render
+            the login form and return it back to the browser.
+            However if  the requested authenticate method requires
+            third-party authorization, call the corresponding method
+            for the specific account type (e.g. github)
+            and probably redirect the user in order to allow our application to
+            retrieve his data.
         """
         if not request.user.is_authenticated():
-            context = {
-                'form': SignInForm()
-            }
-            return self.template_response(request, template_name="sign_in.html", context_data=context)
+            if self.authenticate_method == 'django':
+                context = {
+                    'form': SignInForm()
+                }
+                return self.template_response(request, template_name="sign_in.html", context_data=context)
+            else:
+                if self.authenticate_method == 'github':
+                    return self.auth_github()
+                else:
+                    raise NotImplemented('')
         else:
             return HttpResponseRedirect(reverse('dashboard'))
 
@@ -191,6 +220,8 @@ class LoginView(BaseView):
                         login(request, user)
 
                         return HttpResponseRedirect(reverse('dashboard'))
+
+                return HttpResponseRedirect(reverse('sign-in'))
             else:
                 context = {
                     'form' : signin_form,
@@ -199,6 +230,48 @@ class LoginView(BaseView):
                 return self.template_response(request, 'sign_in.html', context_data=context)
         else:
             return HttpResponseRedirect(reverse('dashboard'))
+
+    def auth_github(self):
+        """
+            Check whether the authorization request has been confirmed or not.
+            If it is not, just redirect the user to his GitHub account in order
+            ask him to allow our app to retrieve profile data.
+            If this is request confirmation ... use the received access token and
+            do something with it to receive needed data.
+        """
+        github = GitHub()
+        if not self.third_party_confirm:
+            authorization_url = github.authorize_url(self.request)
+            self.request.session['github_state'] = github.state
+            return HttpResponseRedirect(authorization_url)
+        else:
+            state = self.request.GET['state']
+            if state == self.request.session['github_state']:
+                github.code = self.request.GET['code']
+                github.retrieve_token()
+                user = github.retrieve_user()
+                user_exists = User.objects.filter(email=user['email']).exists()
+                if not user_exists:
+                    random_password = User.objects.make_random_password(10)
+                    user = User.objects.create_user(
+                        username=user['login'], email=user['email'], password=random_password
+                    )
+                    send_mail('ProjectStarter password',
+                        'You have successfully signed up for ProjectStarter' +
+                        ' using your GitHub account. When you try to login please use' +
+                        ' your email address and this random generated password:\n\n\n'+random_password+
+                        ' \n\n\n You should better change your password as soon as you log in.\n\n\n'+
+                        ' Thank you!',
+                        'admin@intrest.in', [user.email], fail_silently=False)
+
+                    user = authenticate(email=user.email, password=random_password)
+                    login(self.request, user)
+                    return redirect('dashboard')
+                else:
+                    return redirect('sign-in')
+            else:
+                raise Exception('Invalid state')
+
 
 
 class LostPasswordView(BaseView):
@@ -240,3 +313,18 @@ class LogoutView(BaseView):
         """
         logout(request)
         return HttpResponseRedirect(reverse('sign-in'))
+
+class SetPasswordView(BaseView):
+
+    def get(self):
+        return self.template_response(self.request, 'set_password.html', {'email':''})
+
+    def post(self):
+        code = self.request.session['github_code']
+        state = self.request.session['github_state']
+        github = GitHub(code, state)
+        github.retrieve_token()
+
+
+
+
