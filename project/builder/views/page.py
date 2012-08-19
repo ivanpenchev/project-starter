@@ -8,71 +8,73 @@ from ..models import *
 from ..forms.main import PageCreateForm
 
 class PageView(BaseView):
-	@method_decorator(login_required)
-	def dispatch(self, *args, **kwargs):
-		"""
-		Must log in to view this content
-		"""
-		return super(PageView, self).dispatch(*args, **kwargs)
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        """
+        Must log in to view this content
+        """
+        return super(PageView, self).dispatch(*args, **kwargs)
 
-	def get(self, *args, **kwargs):
-		if 'action' in kwargs:
-			func = getattr(self, kwargs.get('action'))
-			return func(*args, **kwargs)
+    def get(self, *args, **kwargs):
+        if 'action' in kwargs:
+            func = getattr(self, kwargs.get('action'))
+            return func(*args, **kwargs)
 
-		return self.all(*args, **kwargs)
+        return self.all(*args, **kwargs)
 
-	def post(self, *args, **kwargs):
-		return self.get(*args, **kwargs)
+    def post(self, *args, **kwargs):
+        return self.get(*args, **kwargs)
 
-	def all(self, *args, **kwargs):
-		"""
-		Return a list of all user's pages
-		"""
+    def all(self, *args, **kwargs):
+        """
+        Return a list of all user's pages
+        """
 
-		request = args[0]
-		context = { 'user_pages_list' : Page.fetch(creator=request.user) }
+        request = args[0]
+        context = { 'user_pages_list' : Page.fetch(creator=request.user) }
 
-		if request.is_ajax():
-			return self.json(context)
-		else:
-			return self.template_response(request, template_name='page/all.html', context_data=context)
+        if request.is_ajax():
+            return self.json(context)
+        else:
+            return self.template_response(request, template_name='page/all.html', context_data=context)
 
-	def create(self, *args, **kwargs):
-		request = args[0]
+    def create(self, *args, **kwargs):
+        request = args[0]
 
-		if request.method == "GET":
-			# Return create page response
+        if request.method == "GET":
+            # Return create page response
 
-			context = { 'form' : PageCreateForm() }
+            context = { 'form' : PageCreateForm() }
 
-			return self.template_response(request, template_name="page/create.html", context_data=context)
-		else:
-			if request.method == "POST":
-				# Create the page
-			
-				form = PageCreateForm(data=request.POST)
-				data = {
-					'messages' : {
-						'success' : 'The page was successfully created.',
-						'error' : 'An error occurred while creating the page.'
-					},
-					'on_success_redirect' : 'builder-page'
-				}
+            return self.template_response(request, template_name="page/create.html", context_data=context)
+        else:
+            if request.method == "POST":
+                # Create the page
 
-				return self.form_response(request, template_name="page/create.html", form=form, data=data)
+                form = PageCreateForm(data=request.POST)
+                data = {
+                    'messages' : {
+                        'success' : 'The page was successfully created.',
+                        'error' : 'An error occurred while creating the page.'
+                    },
+                    'on_success_redirect' : 'builder-page'
+                }
 
-		return HttpResponseRedirect(reverse('page-create'))
+                return self.form_response(request, template_name="page/create.html", form=form, data=data)
 
-	def delete(self, *args, **kwargs):
-		request = args[0]
+        return HttpResponseRedirect(reverse('page-create'))
 
-		if request.method == "GET" and 'id' in kwargs:
-			page_id = kwargs.get('id')
+    def delete(self, *args, **kwargs):
+        request = args[0]
 
-			page = Page.objects.filter(id=page_id)
+        if request.method == "GET" and 'id' in kwargs:
+            page_id = kwargs.get('id')
 
-			if page:
-				page.delete()
+            page = Page.objects.filter(id=page_id)
 
-		return HttpResponseRedirect(reverse('page-all'))
+            import pdb; pdb.set_trace()
+            if page.get().creator == request.user:
+                if page:
+                    page.delete()
+
+        return HttpResponseRedirect(reverse('page-all'))

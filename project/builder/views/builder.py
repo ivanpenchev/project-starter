@@ -22,19 +22,20 @@ class BuilderView(BaseView):
 			page_id = kwargs.get('id')
 			page = Page.fetch(id=page_id)
 
-			if page:
-				if 'action' in kwargs:
-					template_name = 'builder/partials/'+kwargs.get('action')+'.html'
-					builder_content = self.template_to_string(request, template_name=template_name, context_data={'page' : page[0]})
-					output = { 'builder_content' : builder_content, 'page_id' : page_id }
+			if page[0].creator == request.user:
+				if page:
+					if 'action' in kwargs:
+						template_name = 'builder/partials/'+kwargs.get('action')+'.html'
+						builder_content = self.template_to_string(request, template_name=template_name, context_data={'page' : page[0]})
+						output = { 'builder_content' : builder_content, 'page_id' : page_id }
 
-					if request.is_ajax() and 'json' in kwargs:
-						return self.json(output)
-					else:
-						output['page'] = page[0]
-						return self.template_response(request, template_name='builder/main.html', context_data=output)
+						if request.is_ajax() and 'json' in kwargs:
+							return self.json(output)
+						else:
+							output['page'] = page[0]
+							return self.template_response(request, template_name='builder/main.html', context_data=output)
 
-				return self.one(*args, **kwargs)
+					return self.one(*args, **kwargs)
 
 		return HttpResponseRedirect('/')
 

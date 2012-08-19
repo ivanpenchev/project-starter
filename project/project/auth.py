@@ -184,7 +184,24 @@ class LostPasswordView(BaseView):
         Generate random password, update the user record by the provided email address
         and send the newly generated password via email to the user.
         """
-        pass
+        email = request.POST['email']
+        new_password = User.objects.make_random_password(10)
+        user = User.objects.filter(email=email)
+
+        if user.exists():
+            user = user.get()
+            user.set_password(new_password)
+            send_mail('ProjectStarter password', 'Hey someone(hopefully you) have requested'+
+                                                 ' new password and we have generated it for you.'+
+                                                 'Here is your new password for signing in: \n\n'+
+                                                 new_password+'\n\n\n You should better change it '+
+                                                 'as soon as you log in into your account. '+
+                                                 'Thank you for using ProjectStarter!', 'admin@intrest.in', [email])
+            user.save()
+        else:
+            return redirect('lost-password')
+
+        return redirect('sign-in')
 
 
 class LogoutView(BaseView):
