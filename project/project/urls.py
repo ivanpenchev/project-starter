@@ -5,7 +5,7 @@ import settings
 # from django.contrib import admin
 # admin.autodiscover()
 from project.views import (LoginView, HomeView, LogoutView,
-                           SignupView, DashboardView, LostPasswordView)
+                           SignupView, DashboardView, LostPasswordView, SetPasswordView)
 
 urlpatterns = patterns('',
 
@@ -16,7 +16,10 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^sign-in$', LoginView.as_view(), name='sign-in'),
+    url(r'^sign-in/confirm/(?P<type>.+)$', LoginView.as_view(), name='sign-in-confirm', kwargs={'confirm':True}),
+    url(r'^sign-in/(?P<type>.+)$', LoginView.as_view(), name='sign-in-special'),
     url(r'^sign-up$', SignupView.as_view(), name='sign-up'),
+    url(r'^account/password$', SetPasswordView.as_view(), name='set-password'),
     url(r'^password/lost$', LostPasswordView.as_view(), name='lost-password'),
     url(r'^dashboard', DashboardView.as_view(), name='dashboard'),
     url(r'^logout$', LogoutView.as_view(), name='logout'),

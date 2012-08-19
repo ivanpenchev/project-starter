@@ -28,6 +28,12 @@ LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
 
+# Set up our SMTP mail server settings
+EMAIL_HOST = 'mail.intrestin.net'
+EMAIL_PORT = 26
+EMAIL_HOST_USER = 'admin@intrest.in'
+EMAIL_HOST_PASSWORD = ')QiN&f13POSz'
+
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
