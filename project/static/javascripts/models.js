@@ -5,9 +5,28 @@ var BuilderPage = Backbone.Model.extend({
     initialize: function() {
         this.on('change:builder_content', function(e) {
             $('#builder_content').html(this.get('builder_content'));
+
             Aloha.ready( function() {
                 var $ = Aloha.jQuery;
                 $('.editable').aloha();
+            });
+            Aloha.bind('aloha-editable-deactivated', function(a, b) {
+                var element = $(b.editable.obj);
+                var originalElementText = $(b.editable.originalObj).html();
+                var elementText = element.html();
+                var elementId = element.attr('id').split('_')[1];
+                var pageId = element.attr('id').split('_')[2];
+
+                $.post('/builder/ajax/save_element/', {
+                    'content' : elementText,
+                    'position' : elementId,
+                    'page_id' : pageId
+                }, function(data) {
+                    if (!data.success)
+                    {
+                        element.html(originalElementText);
+                    }
+                });
             });
         });
     },

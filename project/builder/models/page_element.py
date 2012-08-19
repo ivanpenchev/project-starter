@@ -26,5 +26,9 @@ class PageElement(models.Model):
 	def __unicode__(self):
 		return str(self.content)
 		
+	@classmethod
+	def fetch(cls, **kwargs):
+		return Page.objects.filter(**kwargs).order_by('-id')
+		
 	class Meta:
 		app_label = 'builder'

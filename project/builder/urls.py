@@ -4,6 +4,7 @@ from django.conf.urls.defaults import patterns, include, url
 # Import views
 from .views.builder import *
 from .views.page import *
+from .views.ajax import *
 
 urlpatterns = patterns('builder.views.builder',
 	url(r'^(?P<id>\d+)/$', BuilderView.as_view(), name='builder-page'),
@@ -26,4 +27,8 @@ urlpatterns += patterns('builder.views.pages',
 	url(r'^page/all/$', PageView.as_view(), name='page-all'),
 	url(r'^page/create/$', PageView.as_view(), name='page-create', kwargs={'action' : 'create'}),
 	url(r'^page/delete/(?P<id>\d+)/$', PageView.as_view(), name='page-delete', kwargs={'action' : 'delete'}),
+)
+
+urlpatterns += patterns('builder.views.ajax',
+	url(r'ajax/save_element/$', AjaxView.as_view(), name='save-element', kwargs={'action' : 'save_element'}),
 )

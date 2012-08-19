@@ -42,27 +42,30 @@
 			Backbone.history.start({pushState: true});
 		});
 
-	</script>
-		
-	<script type="text/javascript" src="http://cdn.aloha-editor.org/latest/lib/require.js"></script>
+		(function (window, undefined) {
 
-	<script src="http://cdn.aloha-editor.org/latest/lib/aloha.js"
-	                   data-aloha-plugins="
-	                                        common/format,
-	                                        common/link,
-	                                        common/highlighteditables">
-	</script>
-	<script type="text/javascript">
-		Aloha.settings = {
-			plugins: {
-				format: {
-					config: [  'b', 'i', 'sub', 'sup', 'p', 'h3', 'h4', 'h5', 'h6' ],
-					editables: {
-						'#coming-soon-title': [ 'i' ],
-						'#coming-soon-subtitle': [ 'i' ]
+            if (window.Aloha === undefined || window.Aloha === null) {
+                var Aloha = window.Aloha = {};
+            }
+
+			Aloha.settings = {
+				plugins: {
+					format: {
+						config: [  'b', 'i', 'sub', 'sup', 'h3', 'h4', 'h5' ],
+						editables: {
+							'h2.title': [ 'b', 'i', 'sub', 'sup' ],
+							'h5.sub': [ 'b', 'i', 'sub', 'sup' ]
+						}
 					}
 				}
-			}
-		}
+			};
+        })(window);
+
+	</script>
+
+	<script src="{{ STATIC_URL }}javascripts/aloha-full.min.js"
+	                   data-aloha-plugins="common/ui,
+	                                        common/format,
+	                                        common/highlighteditables">
 	</script>
 {% endblock %}

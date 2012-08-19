@@ -20,7 +20,7 @@ class PageCreateForm(forms.Form):
 
 		# Create the page
 		obj_page.creator = creator
-		obj_page.template = PageTemplate.get_template(name='theme_1')
+		obj_page.template = PageTemplate.get_template(name='theme_2')
 		obj_page.save()
 
 		# Create a page element
