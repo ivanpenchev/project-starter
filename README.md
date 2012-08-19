@@ -4,7 +4,7 @@
 [![Build Status](https://secure.travis-ci.org/ivanvpenchev/project-starter.png?branch=develop)](http://travis-ci.org/ivanvpenchev/project-starter)
 
 ### Installation
-1. Create a virtualenv and activate it
+1. Create a [virtualenv](http://pypi.python.org/pypi/virtualenv/) and activate it - [more info](http://pypi.python.org/pypi/virtualenv/)
 2. Clone the repo
 3. Run `cd project-starter & pip install -r requirements/development.txt`
 4. Run `python project/manage.py syncdb`
