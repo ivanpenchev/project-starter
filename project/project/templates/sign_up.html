@@ -10,20 +10,7 @@
                 <form action="" method="POST">
                     {% csrf_token %}
                     
-                    <label for="user-fname">First name</label>
-                    <input type="text" name="fname" id="user-fname" />
-
-                    <label for="user-lname">Last name</label>
-                    <input type="text" name="lname" id="user-lname" />
-
-                    <label for="user-email">Email</label>
-                    <input type="text" name="email" id="user-email" />
-
-                    <label for="user-password">Password</label>
-                    <input type="password" name="password" id="user-password" />
-
-                    <label for="user-confirm">Confirm password</label>
-                    <input type="password" name="password_confirm" id="user-confirm" />
+                    {% include "form_partial.html" %}
 
                     <input type="submit" class="medium primary button with radius" value="Sign up" />
                 </form>
