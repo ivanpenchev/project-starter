@@ -22,7 +22,7 @@ class BuilderView(BaseView):
 			page_id = kwargs.get('id')
 			page = Page.fetch(id=page_id)
 
-			if page.creator == request.user:
+			if page[0].creator == request.user:
 				if page:
 					if 'action' in kwargs:
 						template_name = 'builder/partials/'+kwargs.get('action')+'.html'
