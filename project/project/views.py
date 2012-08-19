@@ -174,10 +174,13 @@ class LoginView(BaseView):
         return HttpResponseRedirect(reverse('sign-in'))
 
 
-class ChangePasswordView(BaseView):
+class LostPasswordView(BaseView):
 
     def get(self, request):
-        return self.template_response(request, 'password_change.html')
+        if not request.user.is_authenticated():
+            return self.template_response(request, 'password_lost.html')
+        else:
+            return HttpResponseRedirect(reverse('sign-in'))
 
     def post(self, request):
         pass
