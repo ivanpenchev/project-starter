@@ -149,7 +149,6 @@ class LoginView(BaseView):
             context = {
                 'form': SignInForm()
             }
-            import pdb; pdb.set_trace()
             return self.template_response(request, template_name="sign_in.html", context_data=context)
         else:
             return HttpResponseRedirect(reverse('dashboard'))
