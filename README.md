@@ -17,6 +17,6 @@ __URL:__ [http://projectstarter.herokuapp.com/](http://projectstarter.herokuapp.
 
 __Demo account:__
 
-    _username:_ `admin@example.com`
+_username:_ `admin@example.com`
 
-    _password:_ `admin`
+_password:_ `admin`
