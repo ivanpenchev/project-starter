@@ -165,7 +165,7 @@ LOGGING = {
 #
 
 COMPRESS_OUTPUT_DIR='cache' 
-COMPRESS_ENABLED = True
+COMPRESS_ENABLED = False
 
 COMPRESS_CSS_FILTERS = [
      'compressor.filters.cssmin.CSSMinFilter',
