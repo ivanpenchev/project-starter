@@ -57,18 +57,22 @@ class PageView(BaseView):
 						'success' : 'The page was successfully created.',
 						'error' : 'An error occurred while creating the page.'
 					},
-					'on_success_redirect' : 'builder_page'
+					'on_success_redirect' : 'builder-page'
 				}
 
 				return self.form_response(request, template_name="page/create.html", form=form, data=data)
 
-		return HttpResponseRedirect(reverse('page_create'))
+		return HttpResponseRedirect(reverse('page-create'))
 
 	def delete(self, *args, **kwargs):
 		request = args[0]
 
 		if request.method == "GET" and 'id' in kwargs:
-			page_id = kwargs['id']
+			page_id = kwargs.get('id')
 
-			Page.objects.filter(id=page_id).delete()
-			return HttpResponseRedirect(reverse('page_all'))
+			page = Page.objects.filter(id=page_id)
+
+			if page:
+				page.delete()
+
+		return HttpResponseRedirect(reverse('page-all'))

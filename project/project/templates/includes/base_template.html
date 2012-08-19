@@ -12,6 +12,17 @@
             <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheets/auth-buttons.css" />
             <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheets/app.css" />
         {% endcompress %}
+        {% compress js %}
+            <script src="{{ STATIC_URL }}javascripts/jquery.js" type="text/javascript"></script>
+            <script src="{{ STATIC_URL }}javascripts/underscore-min.js" type="text/javascript"></script>
+            <script src="{{ STATIC_URL }}javascripts/backbone-min.js" type="text/javascript"></script>
+            <script src="{{ STATIC_URL }}javascripts/foundation.min.js" type="text/javascript"></script>
+            <script src="{{ STATIC_URL }}javascripts/app.js" type="text/javascript"></script>
+            <script src="{{ STATIC_URL }}javascripts/routers.js" type="text/javascript"></script>
+            <script src="{{ STATIC_URL }}javascripts/views.js" type="text/javascript"></script>
+            <script src="{{ STATIC_URL }}javascripts/models.js" type="text/javascript"></script>
+            {% block javascript %}{% endblock %}
+        {% endcompress %}
     </head>
     <body>
         <header>
@@ -64,8 +75,8 @@
                     <li> <a href="{% url sign-up %}"> Sign up </a> </li>
                     {% else %}
                     <li> <a href="{% url dashboard %}">Dashboard</a> </li>
-                    <li> <a href="{% url page_create %}"> Create a page </a> </li>
-                    <li> <a href="{% url page_all %}"> Your pages </a> </li>
+                    <li> <a href="{% url page-create %}"> Create a page </a> </li>
+                    <li> <a href="{% url page-all %}"> Your pages </a> </li>
                     <li> <a href="{% url logout %}" class="to-right"> Logout </a> </li>
                     {% endif %}
                 </ul>

@@ -15,13 +15,12 @@ class PageCreateForm(forms.Form):
 		# Get the creator
 		creator = request.user
 
-		# And a template
-		template = PageTemplate()
-		template.save()
+		# And default templates
+		PageTemplate.add_default_templates()
 
 		# Create the page
 		obj_page.creator = creator
-		obj_page.template = template
+		obj_page.template = PageTemplate.get_template(name='theme_1')
 		obj_page.save()
 
 		# Create a page element

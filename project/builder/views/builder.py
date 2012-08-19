@@ -4,6 +4,7 @@ from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
 
 from project.views import BaseView
+from ..models import *
 
 class BuilderView(BaseView):
 	@method_decorator(login_required)
@@ -13,11 +14,44 @@ class BuilderView(BaseView):
 		"""
 		return super(BuilderView, self).dispatch(*args, **kwargs)
 
+
 	def get(self, *args, **kwargs):
-		"""
-		Return create page response
-		"""
+		request = args[0]
 
 		if 'id' in kwargs:
-			return self.json({'id' : kwargs['id']})
-		
+			page_id = kwargs.get('id')
+			page = Page.fetch(id=page_id)
+
+			if page:
+				if 'action' in kwargs:
+					builder_content = self.template_to_string(request, 
+										template_name='builder/partials/'+kwargs.get('action')+'.html', 
+										context_data={'page' : page})
+					output = { 'builder_content' : builder_content, 'page_id' : page_id }
+
+					if request.is_ajax() and 'json' in kwargs:
+						return self.json(output)
+					else:
+						return self.template_response(request, template_name='builder/main.html', context_data=output)
+
+				return self.one(*args, **kwargs)
+
+		return HttpResponseRedirect('/')
+
+	def post(self, *args, **kwargs):
+		if 'id' in kwargs:
+			page = Page.fetch(id=kwargs['id'])
+
+			if page:
+				if 'action' in kwargs:
+					func = getattr(self, kwargs.get('action'))
+					return func(*args, **kwargs)
+
+		return HttpResponseRedirect('/')
+
+	def one(self, *args, **kwargs):
+		"""
+		View the site builder
+		"""
+
+		return HttpResponseRedirect(reverse('landing-page', kwargs={'id' : kwargs['id']}))

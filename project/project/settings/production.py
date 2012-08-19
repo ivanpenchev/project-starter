@@ -11,3 +11,5 @@ DATABASES = {
 INSTALLED_APPS = (
 	'gunicorn',
 )
+
+COMPRESS_ENABLED = True

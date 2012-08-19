@@ -7,30 +7,39 @@
 {% block content %}
     <div class="row">
         <div class="eleven centered columns">
-            <h4>Your coming soon pages</h4>
-            <hr>
+            {% if user_pages_list %}
+                <h4>Your coming soon pages</h4>
+                <hr>
 
-            <table class="twelve">
-                <thead>
-                    <tr>
-                        <th>Site URL</th>
-                        <th>Site name</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for user_page in user_pages_list %}
+                <table class="twelve">
+                    <thead>
                         <tr>
-                            <td>{% get_setting user_page 'site_url' %}</td>
-                            <td>{% get_element user_page 'site_name' %}</td>
-                            <td>
-                                <a href="{% url builder_page user_page.id %}" class="small success button with radius">Edit</a>&nbsp;
-                                <a href="{% url page_delete user_page.id %}" class="small alert button with radius">Delete</a>
-                            </td>
+                            <th>Site URL</th>
+                            <th>Site name</th>
+                            <th>Actions</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for user_page in user_pages_list %}
+                            <tr>
+                                <td>{% get_setting user_page 'site_url' %}</td>
+                                <td>{% get_element user_page 'site_name' %}</td>
+                                <td>
+                                    <a href="{% url builder-page user_page.id %}" class="small success button with radius">Edit</a>&nbsp;
+                                    <a href="{% url page-delete user_page.id %}" class="small alert button with radius">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="twelve text-center">
+                    <h4><strong>Oops!</strong> Sorry, but you don't have any pages yet :(</h4>
+                    <h5 class="subheader">
+                        You can create one from <a href="{% url page-create %}">here</a>.
+                    </h5>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

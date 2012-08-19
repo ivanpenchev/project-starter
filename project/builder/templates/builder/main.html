@@ -1,0 +1,39 @@
+{% extends "base_template.html" %}
+
+{% block title %}Page builder{% endblock %}
+
+{% block content %}
+	<div class="row">
+	    <div class="eleven centered columns" id="builder_view">
+	    	<h4>Page builder</h4>
+            <hr>
+
+	        <div class="row">
+	            <div clmass="twelve columns">
+	                <ul class="breadcrumbs" id="builder_menu">
+	                    <li> <a href="{% url landing-page page_id %}" id="landing-page" class="current"> Landing page </a> </li>
+	                    <li> <a href="{% url sharing-page page_id %}" id="sharing-page"> Sharing page </a> </li>
+	                    <li> <a href="{% url confirm-email page_id %}" id="confirm-email"> Confirmation email </a> </li>
+	                    <li> <a href="{% url site-settings page_id %}" id="site-settings"> Settings </a> </li>
+	                    <li> <a href="{% url review-page page_id %}" id="review-page"> Review </a> </li>
+	                </ul>
+	            </div>
+	        </div>
+
+	        <div class="row" id="builder_content">
+	        	{{ builder_content }}
+	        </div>
+	    </div>
+	</div>
+{% endblock %}
+
+{% block javascript %}
+	<script type="text/javascript">
+		var builderRouter;
+		$(function() {
+			builderRouter = new BuilderRouter();
+			var builderView = new BuilderView();
+			Backbone.history.start({pushState: true});
+		});
+	</script>
+{% endblock %}
