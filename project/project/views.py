@@ -11,6 +11,10 @@ from django.template import RequestContext, loader
 from django.utils.decorators import method_decorator
 from django.views.generic import View
 from project.forms.sign_in import SignInForm
+from project.forms.sign_up import SignUpForm
+
+import string
+import random
 
 class BaseView(View):
     """
@@ -117,7 +121,10 @@ class SignupView(BaseView):
             Render sign up form
         """
         if not request.user.is_authenticated():
-            return self.template_response(request, template_name='sign_up.html')
+            context = {
+                'form' : SignUpForm()
+            }
+            return self.template_response(request, template_name='sign_up.html', context_data=context)
         else:
             return HttpResponseRedirect(reverse('home'))
 
@@ -127,15 +134,25 @@ class SignupView(BaseView):
         """
         if not request.user.is_authenticated():
             post_data = request.POST
+            signup_form = SignUpForm(post_data)
 
-            username = post_data['fname']+post_data['lname']
-            user = User.objects.create_user(username.lower(), post_data['email'], post_data['password'])
+            if signup_form.is_valid():
+                random_string_chars = string.ascii_letters + string.digits
+                random_string = ''.join(random.choice(random_string_chars) for x in range(5))
+                username = post_data['fname']+post_data['lname']+'_'+random_string
+                user = User.objects.create_user(username.lower(), post_data['email'], post_data['password'])
 
-            user.first_name = post_data['fname']
-            user.last_name = post_data['lname']
-            user.save()
+                user.first_name = post_data['fname']
+                user.last_name = post_data['lname']
+                user.save()
 
-            return HttpResponseRedirect(reverse('sign-in'))
+                return HttpResponseRedirect(reverse('sign-in'))
+            else:
+                context = {
+                    'form' : signup_form,
+                    'errors' : signup_form.errors
+                }
+                return self.template_response(request, 'sign_up.html', context_data=context)
         else:
             return HttpResponseRedirect(reverse('home'))
 
@@ -164,6 +181,7 @@ class LoginView(BaseView):
             signin_form = SignInForm(post_data)
 
             if signin_form.is_valid():
+
                 user = authenticate(email=post_data['email'], password=post_data['password'])
 
                 if user is not None:
