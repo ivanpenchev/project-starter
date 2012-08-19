@@ -1,0 +1,36 @@
+{% extends "base_template.html" %}
+
+{% load user_page_tags %}
+
+{% block title %}Your coming soon pages{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="eleven centered columns">
+            <h4>Your coming soon pages</h4>
+            <hr>
+
+            <table class="twelve">
+                <thead>
+                    <tr>
+                        <th>Site URL</th>
+                        <th>Site name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user_page in user_pages_list %}
+                        <tr>
+                            <td>{% get_setting user_page 'site_url' %}</td>
+                            <td>{% get_element user_page 'site_name' %}</td>
+                            <td>
+                                <a href="{% url builder_page user_page.id %}" class="small success button with radius">Edit</a>&nbsp;
+                                <a href="{% url page_delete user_page.id %}" class="small alert button with radius">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

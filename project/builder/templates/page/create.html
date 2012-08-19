@@ -1,0 +1,18 @@
+{% extends "base_template.html" %}
+
+{% block title %}Create a coming soon page{% endblock %}
+
+{% block content %}
+	<div class="row">
+	    <div class="eleven centered columns">
+	    	<h4>Create a coming soon page</h4>
+            <hr>
+
+			<form method="post" class="six" action="{% url page_create %}">
+				{% include 'includes/form_partial.html' %}
+
+				<input type="submit" name="submit" value="Create" class="medium primary button with radius" />
+			</form>
+	    </div>
+	</div>
+{% endblock %}
