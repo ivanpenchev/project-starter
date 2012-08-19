@@ -12,9 +12,10 @@
 /* -----------------------------------------
    Shared Styles
 ----------------------------------------- */
-header { border-bottom: 1px dashed #ccc; margin-bottom: 10px; }
+span.info { color: #1E728C; }
+header { border-bottom: 1px dashed #ccc; margin-bottom: 10px; padding-bottom: 15px; }
 header .login-form-small { padding-top: 35px; }
-header .login-form-small .login-btn { padding-top: 17px !important;}
+header .login-form-small .button.medium { height: 32px; padding-top: 8px; }
 div.content { margin: 35px 0; }
 .social-login { margin: 15px; }
 footer { border-top: 1px dashed #ccc; text-align: center; padding: 35px 0; }

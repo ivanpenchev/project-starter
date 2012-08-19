@@ -31,7 +31,7 @@
                     <h2>Project Starter</h2>
                     <h5 class="subheader">Start new project in seconds right now</h5>
                 </div>
-                <div class="five columns right login-form-small">
+                <div class="five columns login-form-small">
                     {% if not user.is_authenticated %}
                     <form action="{% url sign-in %}" method="POST">
                         {% csrf_token %}
@@ -43,7 +43,13 @@
                                 <input type="password" name="password" placeholder="Password">
                             </div>
                             <div class="three columns">
-                                <input type="submit" name="signin" value="Sign in" class="small round button" />
+                                <input type="submit" name="signin" value="Sign in" class="medium button with radius" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="twelve columns">
+                                <span class="info">You can also</span>
+                                <a href="#" class="btn-auth btn-github">Sign in with <strong>GitHub</strong></a>
                             </div>
                         </div>
                     </form>

@@ -42,18 +42,14 @@ class PageView(BaseView):
 		request = args[0]
 
 		if request.method == "GET":
-			"""
-			Return create page response
-			"""
+			# Return create page response
 
 			context = { 'form' : PageCreateForm() }
 
 			return self.template_response(request, template_name="page/create.html", context_data=context)
 		else:
 			if request.method == "POST":
-				"""
-				Create the page
-				"""
+				# Create the page
 			
 				form = PageCreateForm(data=request.POST)
 				data = {
