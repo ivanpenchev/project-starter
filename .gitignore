@@ -3,5 +3,6 @@
 *.pyc
 /*.pyc
 .idea/
+*.db
 project/static/cache/
 project/static/log/
