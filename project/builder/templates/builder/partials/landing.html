@@ -1,5 +1,24 @@
-<div class="page-layout" style="width: 100%; min-height: 600px;">
+{% load user_page_tags %}
+
+<div class="page-layout coming-soon" style="width: 100%; min-height: 600px; border-radius: 3px;">
 	<div class="box-element">
-		test
+		<h2 id="coming-soon-title" class="editable">{% get_element page 'site_name' %}</h2>
+		<h5 id="coming-soon-subtitle" class="sub editable">{% get_element page 'site_slogan' %}</h5>
+		<hr>
 	</div>
 </div>
+
+{% block css %}
+	<style type="text/css">
+		.page-layout {
+			background: {% get_template_data page 'background' %};
+			color: {% get_template_data page 'text_color' %};
+		}
+
+		.page-layout .box-element {
+			background: {% get_template_data page 'box_background' %};
+		}
+
+		{% get_template_data page 'css' %}
+	</style>
+{% endblock %}

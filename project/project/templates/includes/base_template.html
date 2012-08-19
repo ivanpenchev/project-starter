@@ -11,6 +11,7 @@
             <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheets/foundation.css" />
             <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheets/auth-buttons.css" />
             <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheets/app.css" />
+            {% block css %}{% endblock %}
         {% endcompress %}
         {% compress js %}
             <script src="{{ STATIC_URL }}javascripts/jquery.js" type="text/javascript"></script>

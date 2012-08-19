@@ -7,11 +7,14 @@ from .views.page import *
 
 urlpatterns = patterns('builder.views.builder',
 	url(r'^(?P<id>\d+)/$', BuilderView.as_view(), name='builder-page'),
+	
 	url(r'^(?P<id>\d+)/landing-page/$', BuilderView.as_view(), name='landing-page', kwargs={'action' : 'landing'}),
 	url(r'^(?P<id>\d+)/sharing-page/$', BuilderView.as_view(), name='sharing-page', kwargs={'action' : 'sharing'}),
 	url(r'^(?P<id>\d+)/confirmation-email/$', BuilderView.as_view(), name='confirm-email', kwargs={'action' : 'email'}),
 	url(r'^(?P<id>\d+)/site-settings/$', BuilderView.as_view(), name='site-settings', kwargs={'action' : 'settings'}),
 	url(r'^(?P<id>\d+)/review-page/$', BuilderView.as_view(), name='review-page', kwargs={'action' : 'review'}),
+	
+	# Different URLs for JSON loading - prevents from loading raw JSON on the page
 	url(r'^(?P<id>\d+)/landing-page/(?P<json>.+)/$', BuilderView.as_view(), name='landing-page', kwargs={'action' : 'landing'}),
 	url(r'^(?P<id>\d+)/sharing-page/(?P<json>.+)/$', BuilderView.as_view(), name='sharing-page', kwargs={'action' : 'sharing'}),
 	url(r'^(?P<id>\d+)/confirmation-email/(?P<json>.+)/$', BuilderView.as_view(), name='confirm-email', kwargs={'action' : 'email'}),

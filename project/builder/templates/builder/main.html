@@ -1,11 +1,13 @@
 {% extends "base_template.html" %}
 
+{% load user_page_tags %}
+
 {% block title %}Page builder{% endblock %}
 
 {% block content %}
 	<div class="row">
 	    <div class="eleven centered columns" id="builder_view">
-	    	<h4>Page builder</h4>
+	    	<h4>Page builder - <a href="{% get_setting page 'site_url' %}" target="_blank">{% get_element page 'site_name' %}</a></h4>
             <hr>
 
 	        <div class="row">
@@ -27,6 +29,10 @@
 	</div>
 {% endblock %}
 
+{% block css %}
+	<link href="http://cdn.aloha-editor.org/latest/css/aloha.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
 {% block javascript %}
 	<script type="text/javascript">
 		var builderRouter;
@@ -34,6 +40,33 @@
 			builderRouter = new BuilderRouter();
 			var builderView = new BuilderView();
 			Backbone.history.start({pushState: true});
+		});
+
+	</script>
+		
+	<script type="text/javascript" src="http://cdn.aloha-editor.org/latest/lib/require.js"></script>
+
+	<script src="http://cdn.aloha-editor.org/latest/lib/aloha.js"
+	                   data-aloha-plugins="
+	                                        common/format,
+	                                        common/link,
+	                                        common/highlighteditables">
+	</script>
+	<script type="text/javascript">
+		Aloha.settings = {
+			plugins: {
+				format: {
+					config: [  'b', 'i', 'sub', 'sup', 'p', 'h3', 'h4', 'h5', 'h6' ],
+					editables: {
+						'#coming-soon-title': [ 'i' ],
+						'#coming-soon-subtitle': [ 'i' ]
+					}
+				}
+			}
+		}
+		Aloha.ready( function() {
+			var $ = Aloha.jQuery;
+			$('.editable').aloha();
 		});
 	</script>
 {% endblock %}

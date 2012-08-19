@@ -5,6 +5,10 @@ var BuilderPage = Backbone.Model.extend({
     initialize: function() {
         this.on('change:builder_content', function(e) {
             $('#builder_content').html(this.get('builder_content'));
+            Aloha.ready( function() {
+                var $ = Aloha.jQuery;
+                $('.editable').aloha();
+            });
         });
     },
 

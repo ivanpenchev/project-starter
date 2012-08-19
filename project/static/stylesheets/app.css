@@ -23,10 +23,47 @@ footer { border-top: 1px dashed #ccc; text-align: center; padding: 35px 0; }
 .hidden { display: none !important; }
 
 /* -----------------------------------------
-   Page Name 1
+   Coming soon page
 ----------------------------------------- */
 
+.coming-soon body, .coming-soon div, .coming-soon dl, .coming-soon dt, .coming-soon dd, .coming-soon ul, .coming-soon ol, .coming-soon li, .coming-soon h1, .coming-soon h2, .coming-soon h3, .coming-soon h4, .coming-soon h5, .coming-soon h6, .coming-soon pre, .coming-soon form, .coming-soon fieldset, .coming-soon p, .coming-soon blockquote, .coming-soon th, .coming-soon td { margin: 0; padding: 0; font-size: 14px; }
 
+.coming-soon h1, .coming-soon h2, .coming-soon h3, .coming-soon h4, .coming-soon h5, .coming-soon h6 { font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; font-weight: bold; text-rendering: optimizeLegibility; line-height: 1.1; margin-bottom: 14px; margin-top: 14px; }
+.coming-soon h1 small, .coming-soon h2 small, .coming-soon h3 small, .coming-soon h4 small, .coming-soon h5 small, .coming-soon h6 small { font-size: 60%; color: #6f6f6f; line-height: 0; }
+
+.coming-soon h1 { font-size: 44px; }
+
+.coming-soon h2 { font-size: 37px; }
+
+.coming-soon h3 { font-size: 27px; }
+
+.coming-soon h4 { font-size: 23px; }
+
+.coming-soon h5 { font-size: 17px; }
+
+.coming-soon h6 { font-size: 14px; }
+
+.coming-soon hr { border: solid #ddd; border-width: 1px 0 0; clear: both; margin: 22px 0 21px; height: 0; }
+
+.sub {
+	line-height: 1.3;
+	color: #6F6F6F;
+	font-weight: 300;
+	margin-bottom: 17px;
+}
+
+.coming-soon {
+	padding-top: 100px;
+}
+
+.coming-soon .box-element {
+	width: 400px;
+	min-height: 300px;
+	margin: 0 auto;
+	padding: 20px;
+	border-radius: 10px;
+	text-align: center;
+}
 
 
 /* -----------------------------------------

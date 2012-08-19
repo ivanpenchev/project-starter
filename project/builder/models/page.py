@@ -52,5 +52,17 @@ class Page(models.Model):
 
 		return page_setting[0].value if page_setting else None
 
+	def get_template_data(self, identifier):
+		template = self.template
+		
+		try:
+			template_data = getattr(template, identifier)
+
+			return template_data if template_data else None
+		except Exception:
+			pass
+
+		return None
+
 	class Meta:
 		app_label = 'builder'
