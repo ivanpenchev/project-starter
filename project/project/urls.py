@@ -4,8 +4,8 @@ import settings
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
-from project.views import (LoginView, HomeView, LogoutView,
-                           SignupView, DashboardView, LostPasswordView, SetPasswordView)
+from project.auth import LoginView, SignupView, LostPasswordView, LogoutView
+from project.views import HomeView, DashboardView
 
 urlpatterns = patterns('',
 
@@ -19,7 +19,6 @@ urlpatterns = patterns('',
     url(r'^sign-in/confirm/(?P<type>.+)$', LoginView.as_view(), name='sign-in-confirm', kwargs={'confirm':True}),
     url(r'^sign-in/(?P<type>.+)$', LoginView.as_view(), name='sign-in-special'),
     url(r'^sign-up$', SignupView.as_view(), name='sign-up'),
-    url(r'^account/password$', SetPasswordView.as_view(), name='set-password'),
     url(r'^password/lost$', LostPasswordView.as_view(), name='lost-password'),
     url(r'^dashboard', DashboardView.as_view(), name='dashboard'),
     url(r'^logout$', LogoutView.as_view(), name='logout'),
