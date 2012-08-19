@@ -10,6 +10,7 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 from django.utils.decorators import method_decorator
 from django.views.generic import View
+from project.forms.sign_in import SignInForm
 
 class BaseView(View):
     """
@@ -72,7 +73,7 @@ class BaseView(View):
                 output = {
                     'success' : False,
                     'form' : form,
-                    'custom_errors' : { data['messages']['error'] } if 'error' in data['messages'] else False
+                    'custom_errors' : { data['messages']['error'] } if  'messages' in data and 'error' in data['messages'] else False
                 }
         else:
             output = {
@@ -86,9 +87,10 @@ class BaseView(View):
         else:
             if output['success']:
                 db_object = output['db_object']
+                kwargs = {'id' : db_object.id } if db_object else {}
 
                 if 'on_success_redirect' in data:
-                    return HttpResponseRedirect(reverse(data['on_success_redirect'], kwargs={'id' : db_object.id}))
+                    return HttpResponseRedirect(reverse(data['on_success_redirect'], kwargs=kwargs))
             else:
                 return self.template_response(request, template_name=template_name, context_data=output)
 
@@ -137,7 +139,6 @@ class SignupView(BaseView):
         else:
             return HttpResponseRedirect(reverse('home'))
 
-
 class LoginView(BaseView):
 
     def get(self, request):
@@ -145,7 +146,11 @@ class LoginView(BaseView):
             Just render and return the login form template
         """
         if not request.user.is_authenticated():
-            return self.template_response(request, template_name="sign_in.html")
+            context = {
+                'form': SignInForm()
+            }
+            import pdb; pdb.set_trace()
+            return self.template_response(request, template_name="sign_in.html", context_data=context)
         else:
             return HttpResponseRedirect(reverse('dashboard'))
 
@@ -157,8 +162,9 @@ class LoginView(BaseView):
         """
         if not request.user.is_authenticated():
             post_data = request.POST
+            signin_form = SignInForm(post_data)
 
-            if post_data:
+            if signin_form.is_valid():
                 user = authenticate(email=post_data['email'], password=post_data['password'])
 
                 if user is not None:
@@ -168,10 +174,14 @@ class LoginView(BaseView):
                         login(request, user)
 
                         return HttpResponseRedirect(reverse('dashboard'))
+            else:
+                context = {
+                    'form' : signin_form,
+                    'errors' : signin_form.errors
+                }
+                return self.template_response(request, 'sign_in.html', context_data=context)
         else:
             return HttpResponseRedirect(reverse('dashboard'))
-
-        return HttpResponseRedirect(reverse('sign-in'))
 
 
 class LostPasswordView(BaseView):
@@ -183,6 +193,10 @@ class LostPasswordView(BaseView):
             return HttpResponseRedirect(reverse('sign-in'))
 
     def post(self, request):
+        """
+        Generate random password, update the user record by the provided email address
+        and send the newly generated password via email to the user.
+        """
         pass
 
 

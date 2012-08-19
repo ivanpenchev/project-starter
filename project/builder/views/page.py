@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect, HttpResponse, Http404, HttpResponseBadRequest
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
@@ -34,7 +34,7 @@ class PageCreateView(BaseView):
 		request = args[0]
 
 		if request.method != "POST":
-			return HttpResponseRedirect(reverse('post_create'))
+			return HttpResponseRedirect(reverse('page_create'))
 
 		form = PageCreateForm(data=request.POST)
 		data = {

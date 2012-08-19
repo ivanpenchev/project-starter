@@ -8,12 +8,7 @@
                 <h3>Sign in</h3>
                 <hr />
                 <form action="" method="POST">
-                    {% csrf_token %}
-                    <label>Email:</label>
-                    <input type="text" name="email" />
-
-                    <label>Password:</label>
-                    <input type="password" name="password" />
+                    {% include "form_partial.html" %}
                     <p> <a href="{% url lost-password %}">Lost password?</a> </p>
 
                     <input type="submit" name="submit" value="Sign in" class="medium success button with radius" /> or <a href="#" class="btn-auth btn-github">Use your <strong>GitHub</strong> account</a>
